@@ -1,0 +1,117 @@
+Device: mps
+Dataset size: 83
+
+Full dataset class counts:
+Class 1: 17 images
+Class 2: 18 images
+Class 3: 19 images
+Class 4: 29 images
+
+===== REPEAT 1 =====
+
+Fold 1 TRAINING class distribution:
+Class 1: 13 images
+Class 2: 14 images
+Class 3: 15 images
+Class 4: 23 images
+
+--- Fold 1/5 ---
+Fold 1 BEST | MSE=0.0142 MAE=0.0950 ACC=0.722 mIoU=0.551 MacroP=0.705 MacroR=0.708
+Confusion (rows=true, cols=pred):
+ [[4 0 0 0]
+ [3 1 0 0]
+ [0 1 3 0]
+ [0 0 1 5]]
+IoU per class: [0.571 0.2   0.6   0.833]
+P  per class : [0.571 0.5   0.75  1.   ]
+R  per class : [1.    0.25  0.75  0.833]
+
+Fold 2 TRAINING class distribution:
+Class 1: 13 images
+Class 2: 14 images
+Class 3: 15 images
+Class 4: 23 images
+
+--- Fold 2/5 ---
+Fold 2 BEST | MSE=0.0090 MAE=0.0659 ACC=0.833 mIoU=0.731 MacroP=0.879 MacroR=0.833
+Confusion (rows=true, cols=pred):
+ [[4 0 0 0]
+ [0 4 0 0]
+ [0 0 2 2]
+ [0 1 0 5]]
+IoU per class: [1.    0.8   0.5   0.625]
+P  per class : [1.    0.8   1.    0.714]
+R  per class : [1.    1.    0.5   0.833]
+
+Fold 3 TRAINING class distribution:
+Class 1: 14 images
+Class 2: 14 images
+Class 3: 15 images
+Class 4: 23 images
+
+--- Fold 3/5 ---
+Fold 3 BEST | MSE=0.0125 MAE=0.0918 ACC=0.588 mIoU=0.437 MacroP=0.576 MacroR=0.583
+Confusion (rows=true, cols=pred):
+ [[3 0 0 0]
+ [1 2 1 0]
+ [0 0 0 4]
+ [0 0 1 5]]
+IoU per class: [0.75 0.5  0.   0.5 ]
+P  per class : [0.75  1.    0.    0.556]
+R  per class : [1.    0.5   0.    0.833]
+
+Fold 4 TRAINING class distribution:
+Class 1: 14 images
+Class 2: 15 images
+Class 3: 15 images
+Class 4: 23 images
+
+--- Fold 4/5 ---
+Fold 4 BEST | MSE=0.0088 MAE=0.0774 ACC=0.812 mIoU=0.768 MacroP=0.850 MacroR=0.854
+Confusion (rows=true, cols=pred):
+ [[3 0 0 0]
+ [0 3 0 0]
+ [0 0 3 1]
+ [0 0 2 4]]
+IoU per class: [1.    1.    0.5   0.571]
+P  per class : [1.  1.  0.6 0.8]
+R  per class : [1.    1.    0.75  0.667]
+
+Fold 5 TRAINING class distribution:
+Class 1: 14 images
+Class 2: 15 images
+Class 3: 16 images
+Class 4: 24 images
+
+--- Fold 5/5 ---
+Fold 5 BEST | MSE=0.0126 MAE=0.1003 ACC=0.643 mIoU=0.483 MacroP=0.662 MacroR=0.650
+Confusion (rows=true, cols=pred):
+ [[3 0 0 0]
+ [1 1 1 0]
+ [0 1 2 0]
+ [0 0 2 3]]
+IoU per class: [0.75  0.25  0.333 0.6  ]
+P  per class : [0.75 0.5  0.4  1.  ]
+R  per class : [1.    0.333 0.667 0.6  ]
+
+===== 5-Fold Cross-Validation Results =====
+MSE mean=0.0114 std=0.0024
+MAE mean=0.0861 std=0.0141
+RMSE mean=0.1063
+ACC mean=0.720 std=0.106
+ACC median=0.722
+mIoU mean=0.594 std=0.148
+MacroP mean=0.735 std=0.128
+MacroR mean=0.726 std=0.117
+
+===== FINAL AGGREGATED CONFUSION MATRIX =====
+[[17  0  0  0]
+ [ 5 11  2  0]
+ [ 0  2 10  7]
+ [ 0  1  6 22]]
+
+===== NORMALIZED =====
+[[1.    0.    0.    0.   ]
+ [0.278 0.611 0.111 0.   ]
+ [0.    0.105 0.526 0.368]
+ [0.    0.034 0.207 0.759]]

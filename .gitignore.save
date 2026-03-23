@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+
+# Ignore training artifacts
+runs/
+
+# Ignore large datasets
+*.csv
+
+# Ignore model weights
+*.pt
+*.pth
+
+
