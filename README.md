@@ -1,38 +1,42 @@
-# SEM Regularity Prediction 
+# SEM Regularity Prediction (Fusion CNN + Metadata)
+
+A deep learning fusion model combining CNN-based image features and metadata for predicting surface regularity from SEM images.
+
+---
 
 ## Overview
 
-This project focuses on predicting surface regularity from Scanning Electron Microscope (SEM) images using a deep learning approach. The model combines image-based features with metadata to perform both:
+This project predicts surface regularity from Scanning Electron Microscope (SEM) images using a deep learning approach. The model integrates image-based features with metadata to perform:
 
 * **Regression** → Predict continuous regularity score (Gini-based)
 * **Classification** → Predict discrete regularity class (4 classes)
 
-The system is designed for materials science applications, specifically analyzing Laser-Induced Periodic Surface Structures (LIPSS).
+This work is motivated by materials science applications, specifically analyzing Laser-Induced Periodic Surface Structures (LIPSS).
 
 ---
 
 ## Model Architecture
 
-The model is a **fusion neural network** consisting of:
+The model is a **fusion neural network** consisting of two branches:
 
-* **Image Branch**
+### Image Branch
 
-  * ResNet18 backbone
-  * Modified for grayscale SEM images
-  * Outputs 512-dimensional feature vector
+* ResNet18 backbone
+* Modified for grayscale SEM images
+* Outputs a 512-dimensional feature vector
 
-* **Metadata Branch**
+### Metadata Branch
 
-  * Small Multi-Layer Perceptron (MLP)
-  * Outputs 32-dimensional feature vector
+* Lightweight Multi-Layer Perceptron (MLP)
+* Outputs a 32-dimensional feature vector
 
-* **Fusion Layer**
+### Fusion Layer
 
-  * Concatenates image + metadata features
-  * Feeds into:
+* Concatenates image and metadata features
+* Feeds into:
 
-    * Regression head (Gini score)
-    * Classification head (4 classes)
+  * Regression head (predicts Gini score)
+  * Classification head (predicts 4 classes)
 
 ---
 
@@ -40,32 +44,35 @@ The model is a **fusion neural network** consisting of:
 
 * 5-Fold Stratified Cross Validation
 * Joint Regression + Classification training
-* Class imbalance handling via **WeightedRandomSampler**
-* Data augmentation for robustness
-* Early stopping for stability
-* Mixed precision training (if CUDA available)
-* Detailed evaluation metrics:
+* Class imbalance handling via `WeightedRandomSampler`
+* Data augmentation for improved generalization
+* Early stopping
+* Mixed precision training (CUDA support)
 
-  * MSE / MAE
-  * Accuracy
-  * Confusion Matrix
-  * Precision / Recall (per class)
-  * IoU (Jaccard Index)
-  * Macro Precision / Recall
-  * Mean IoU (mIoU)
+### Evaluation Metrics
+
+* Mean Squared Error (MSE)
+* Mean Absolute Error (MAE)
+* Root Mean Squared Error (RMSE)
+* Accuracy
+* Confusion Matrix
+* Precision / Recall (per class)
+* Intersection over Union (IoU / Jaccard Index)
+* Macro Precision / Recall
+* Mean IoU (mIoU)
 
 ---
 
 ## Dataset
 
-The dataset consists of:
+The dataset includes:
 
 * SEM images
-* Corresponding metadata features
+* Metadata features
 * Continuous regularity scores
 * Discrete labels (4 classes)
 
-Expected structure:
+Project structure:
 
 ```
 project_root/
@@ -77,27 +84,19 @@ project_root/
 │── master_regularity_full_clean.csv
 ```
 
+The full dataset is included in this repository for reproducibility and experimentation.
+
 ---
 
 ## Installation
 
-### 1. Clone the repository
+```bash
+git clone https://github.com/KaranVyas7/sem-regularity-prediction.git
+cd sem-regularity-prediction
 
-```
-git clone https://github.com/your-username/sem-regularity.git
-cd sem-regularity
-```
-
-### 2. Create virtual environment
-
-```
 python3 -m venv .venv
-source .venv/bin/activate   # Mac/Linux
-```
+source .venv/bin/activate
 
-### 3. Install dependencies
-
-```
 pip install -r requirements.txt
 ```
 
@@ -107,11 +106,11 @@ pip install -r requirements.txt
 
 Run training with 5-fold cross-validation:
 
-```
+```bash
 python train_kfold.py
 ```
 
-Output includes:
+This will output:
 
 * Per-fold metrics
 * Confusion matrices
@@ -119,52 +118,9 @@ Output includes:
 
 ---
 
-## Training Details
+## Results
 
-* Loss Function:
-
-  * Regression: Mean Squared Error (MSE)
-  * Classification: CrossEntropyLoss (with label smoothing)
-  * Combined Loss:
-
-    ```
-    loss = MSE + λ * CrossEntropy
-    ```
-
-* Optimizer:
-
-  * AdamW
-
-* Data Augmentation:
-
-  * Random crop
-  * Flips (horizontal + vertical)
-  * Rotation
-  * Color jitter
-  * Gaussian blur
-
----
-
-## Evaluation Metrics
-
-### Regression
-
-* Mean Squared Error (MSE)
-* Mean Absolute Error (MAE)
-* Root Mean Squared Error (RMSE)
-
-### Classification
-
-* Accuracy
-* Confusion Matrix
-* Precision / Recall per class
-* Intersection over Union (IoU)
-* Macro Precision / Recall
-* Mean IoU (mIoU)
-
----
-
-## Example Output
+Example output:
 
 ```
 Fold 1 BEST | MSE=0.0052 MAE=0.0562 ACC=0.667 mIoU=0.479
@@ -176,35 +132,60 @@ Confusion Matrix:
  [0 0 1 5]]
 ```
 
----
+### Summary
 
-## Key Observations
+* Accuracy: ~0.65–0.70
+* mIoU: ~0.45–0.50
 
-* The model performs well on dominant classes but may struggle with minority classes due to dataset imbalance.
-* Weighted sampling improves class balance during training.
-* Joint regression + classification helps stabilize learning.
-
----
-
-## Future Improvements
-
-* Increase dataset size (current dataset is small)
-* Add segmentation masks for spatial learning
-* Use deeper architectures (ResNet50 / EfficientNet)
-* Hyperparameter tuning (learning rate, batch size)
-* Ensemble models
-* Incorporate FFT-based features from SEM images
+The model performs well overall but shows reduced performance on minority classes due to dataset imbalance.
 
 ---
 
-## Research Context
+## Reproducibility
 
-This work is part of the **Aresty Research Program at Rutgers University**, focused on quantifying LIPSS regularity using computer vision and machine learning techniques.
+To reproduce results:
+
+1. Clone the repository
+2. Install dependencies
+3. Run:
+
+   ```bash
+   python train_kfold.py
+   ```
+
+All experiments are fully reproducible using the provided dataset and configuration.
 
 ---
+
+## Training Details
+
+* Loss Function:
+
+  ```
+  loss = MSE + λ * CrossEntropy
+  ```
+* Optimizer: AdamW
+* Data Augmentation:
+
+  * Random crop
+  * Horizontal & vertical flips
+  * Rotation
+  * Color jitter
+  * Gaussian blur
+
+---
+
+## Future Work
+
+* Increase dataset size
+* Incorporate segmentation masks
+* Experiment with deeper architectures (ResNet50, EfficientNet)
+* Hyperparameter tuning
+* Ensemble methods
+* Integrate FFT-based features
 
 ## Author
 
-Karan Vyas
+**Karan Vyas**
 Rutgers University – New Brunswick
 Computer Science & Data Science
